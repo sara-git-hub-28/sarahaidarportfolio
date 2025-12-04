@@ -1,0 +1,46 @@
+
+
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
+import { NextIntlClientProvider } from 'next-intl';
+import { routing } from "@/i18n/routing";
+import { setRequestLocale } from "next-intl/server";
+import Navbar from "./components/navbar/navbar";
+
+export function generateStaticParams() {
+	return routing.locales.map((locale) => ({ locale }));
+}
+
+const geistSans = Geist({
+	variable: "--font-geist-sans",
+	subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+	variable: "--font-geist-mono",
+	subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+	title: "Sarah Haidar Avocat",
+	description: "Sarah Haidar Avocat",
+};
+
+export default async function RootLayout({
+	children
+}: {
+	children: React.ReactNode;
+}) {
+	return (
+		<html>
+			<body className={`${geistSans.variable} ${geistMono.variable}`}>
+
+				<NextIntlClientProvider>
+					<Navbar></Navbar>
+					{children}
+				</NextIntlClientProvider>
+			</body>
+		</html>
+	);
+}
