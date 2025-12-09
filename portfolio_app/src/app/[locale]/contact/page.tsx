@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { Button, TextField } from "@mui/material";
 import jsonData from "../../../data/contactData.json";
 import { useTranslations } from "next-intl";
+import { SendEmail } from "@/app/actions"
 
 interface formValuesObject {
     value: string,
@@ -52,7 +53,8 @@ export default function Contact() {
     };
 
     const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.currentTarget.disabled = true;
+        const btn = event.currentTarget
+        btn.disabled = true;
         let errorInForm = false;
         for (let key of Object.keys(formsValues)) {
             if (formsValues[key].error == true) {
@@ -65,16 +67,13 @@ export default function Contact() {
             }
         }
         if (!errorInForm) {
-            await fetch("api/send", {
-                method: "POST",
-                body: JSON.stringify({
-                    fname: formsValues["fname"].value,
-                    lname: formsValues["lname"].value,
-                    email: formsValues["email"].value,
-                    phone: formsValues["phone"].value,
-                    msg: formsValues["msg"].value
-                })
-            }).then((response) => {
+            await SendEmail(JSON.parse(JSON.stringify({
+                fname: formsValues["fname"].value,
+                lname: formsValues["lname"].value,
+                email: formsValues["email"].value,
+                phone: formsValues["phone"].value,
+                msg: formsValues["msg"].value
+            }))).then((response) => {
                 if (response) {
                     alert(t(jsonData.formSection.submitSuccessMessageKey));
                     clearFormValues();
@@ -82,12 +81,15 @@ export default function Contact() {
                 else {
                     alert(t(jsonData.formSection.submitFailureMessageKey));
                 }
-            }).catch(() => alert(t(jsonData.formSection.submitFailureMessageKey)));
+            }).catch((e) => {
+                alert(t(jsonData.formSection.submitFailureMessageKey));
+                console.log(e)
+            });
         }
         else {
             alert(t(jsonData.formSection.submitBadFormMessageKey))
         }
-        event.currentTarget.disabled = false;
+        btn.disabled = false;
     }
 
     const clearFormValues = () => {
