@@ -7,6 +7,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { routing } from "@/i18n/routing";
 import { setRequestLocale } from "next-intl/server";
 import Navbar from "./components/navbar/navbar";
+import Script from "next/script";
 
 export function generateStaticParams() {
 	return routing.locales.map((locale) => ({ locale }));
@@ -41,6 +42,14 @@ export default async function RootLayout({
 					{children}
 				</NextIntlClientProvider>
 			</body>
+			<Script async src={"https://www.googletagmanager.com/gtag/js?id=" + process.env.NEXT_PUBLIC_GOOGLE_TAG_ID}></Script>
+			<Script>
+				{`window.dataLayer = window.dataLayer || [];
+				function gtag(){dataLayer.push(arguments);}
+				gtag('js', new Date());
+
+				gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_TAG_ID}');`}
+			</Script>
 		</html>
 	);
 }
