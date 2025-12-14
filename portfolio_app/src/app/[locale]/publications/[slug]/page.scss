@@ -32,6 +32,10 @@
             & li {
                 padding-inline-start: 0.75rem;
             }
+
+            & li::marker {
+                font-weight: bold;
+            }
         }
 
         .MuiButtonBase-root {
