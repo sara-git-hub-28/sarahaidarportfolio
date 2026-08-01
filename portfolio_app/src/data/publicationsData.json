@@ -36,6 +36,15 @@
             "contentCategory": "visaPassport",
             "releaseDate": "21/11/2025",
             "author": "Sara Haidar"
+        },
+        {
+            "previewTitleKey": "frenchEntrepreneurVisaPubPreviewTitle",
+            "previewContentKey": "frenchEntrepreneurVisaPubPreviewContent",
+            "contentKey": "frenchEntrepreneurVisaPubContent",
+            "slug": "french-entrepreneur-visa",
+            "contentCategory": "visaPassport",
+            "releaseDate": "29/07/2026",
+            "author": "Sara Haidar"
         }
     ]
 }
